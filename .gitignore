@@ -83,16 +83,9 @@ ipython_config.py
 # Environments
 .env
 .venv
-env/
 btvenv/
-ENV/
 env.bak/
 venv.bak/
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
 
 # PyCharm / IntelliJ
 .idea/
@@ -114,7 +107,6 @@ ehthumbs_vista.db
 # Machine Learning & Data Science / Hugging Face Spaces
 *.h5
 *.hdf5
-*.keras
 *.pt
 *.pth
 *.onnx

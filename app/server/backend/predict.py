@@ -21,7 +21,6 @@ class Predictor:
             raise ValueError(f"Image not found at path: {self.file_path}")
 
         # Preprocess
-        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)
         self.img = cv2.resize(self.img, img_size)
 
         self.img = np.expand_dims(self.img, axis=0)

@@ -1,0 +1,38 @@
+# Version control
+.git
+.gitignore
+
+# Virtual environments
+btvenv/
+.venv/
+env/
+
+# Node modules (rebuilt inside Docker)
+node_modules/
+app/client/node_modules/
+
+# IDE / OS
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Docker files (no need to copy themselves)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Data & logs (not needed at runtime)
+data/
+logs/
+*.log
+
+# Model training code (not needed for inference)
+model/
+
+# Misc
+*.md
+LICENSE
+.env

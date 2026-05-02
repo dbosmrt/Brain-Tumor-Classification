@@ -1,4 +1,4 @@
-const API_BASE = '/predict';
+const API_BASE = '/api/predict';
 
 export async function predictTumor(file) {
   const formData = new FormData();

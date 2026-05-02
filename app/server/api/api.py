@@ -1,9 +1,12 @@
 """Brain Tumor Classification API — minimal FastAPI server."""
 
 import os, sys, shutil, uuid, logging
+from pathlib import Path
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 server_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,12 +44,12 @@ class PredictionResponse(BaseModel):
 
 
 
-@app.get("/")
-async def root():
+@app.get("/api/health")
+async def health():
     return {"status": "running", "model_loaded": model is not None}
 
 
-@app.post("/predict", response_model=PredictionResponse)
+@app.post("/api/predict", response_model=PredictionResponse)
 async def predict(file: UploadFile = File(...)):
     """Upload an MRI image → get tumor classification probabilities."""
 
@@ -95,3 +98,16 @@ async def predict(file: UploadFile = File(...)):
     finally:
         if os.path.exists(temp_path):
             os.remove(temp_path)
+
+
+static_dir = Path(server_dir) / "static"
+if static_dir.is_dir():
+    app.mount("/assets", StaticFiles(directory=str(static_dir / "assets")), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        """Catch-all: serve the React SPA for any non-API route."""
+        file_path = static_dir / full_path
+        if file_path.is_file():
+            return FileResponse(str(file_path))
+        return FileResponse(str(static_dir / "index.html"))
